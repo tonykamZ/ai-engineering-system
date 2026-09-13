@@ -6,7 +6,7 @@ This repository is the process artifact—not another AI-generated demo app. It 
 
 `Intent → Context → Plan → Implement → Review → Verify → Release → Learn`
 
-[See how this system fits into my mobile engineering workflow](https://my-portfolio-rho-silk-31.vercel.app/projects/my-work-flow).
+[See how this system fits into my mobile engineering workflow](https://tonykam-portfolio.vercel.app/).
 
 ## What this demonstrates
 

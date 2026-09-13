@@ -8,9 +8,9 @@ Human owner defines the user outcome, priority, constraints, and release context
 
 ## 2. Context
 
-Agent reads the ticket, repository rules, relevant implementation, and nearby tests. Unknowns are made explicit.
+Agent uses [`mcp-context-brief`](../skills/mcp-context-brief/SKILL.md) to read the ticket, repository rules, relevant implementation, nearby tests, and the minimum authoritative context exposed through available MCP capabilities. Unknowns, provenance, and missing sources are made explicit.
 
-**Gate:** affected surfaces and non-goals are understood.
+**Gate:** affected surfaces, non-goals, source freshness, and material evidence gaps are understood.
 
 ## 3. Plan
 
@@ -26,7 +26,7 @@ Agent builds one reviewable vertical slice and records deviations from the plan.
 
 ## 5. Review
 
-Agent and human apply [`acceptance-review`](../skills/acceptance-review/SKILL.md) to behavior, diff, edge cases, and production risk.
+Agent and human apply [`acceptance-review`](../skills/acceptance-review/SKILL.md) to behavior, diff, edge cases, production risk, and current evidence retrieved through MCP or local tools.
 
 **Gate:** blocking findings are fixed or explicitly rejected by the human owner.
 

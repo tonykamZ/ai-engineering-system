@@ -1,55 +1,70 @@
 # AI Engineering System
 
-A small, practical system for using AI coding agents inside a human-owned mobile engineering workflow.
+Portable agent skills and repository rules for running a human-gated mobile engineering workflow on top of MCP.
 
-This repository is the process artifact—not another AI-generated demo app. It shows how a React Native feature moves from intent to a reviewed, verified release candidate:
+This repository is the orchestration layer—not another AI-generated demo app. MCP supplies access to tools and context; the files here define how an agent scopes work, uses those capabilities, verifies the result, and returns decisions to a human owner.
 
-`Intent → Context → Plan → Implement → Review → Verify → Release → Learn`
+`Human intent → AGENTS.md → Portable skill → MCP capabilities → Evidence → Human gate`
 
 [See how this system fits into my mobile engineering workflow](https://tonykam-portfolio.vercel.app/).
 
-## What this demonstrates
+## The layers
 
-- Agents receive explicit scope, repository rules, and acceptance criteria.
-- Implementation happens in small, inspectable, reversible slices.
-- Humans own product scope, architecture, acceptance, device validation, and release decisions.
-- Automated checks provide evidence; they do not replace engineering judgment.
-- Review findings feed back into implementation before release.
-
-## Control model
-
-| Human-owned decisions | Agent-assisted work | Automated checks | Human verification |
-| --- | --- | --- | --- |
-| Product outcome, priority, and architecture exceptions | Read context, plan, and implement reviewable slices | Lint, type checks, tests, and builds | iOS/Android behavior and accessibility |
-| Acceptance, release, and rollback | Challenge the change and document evidence and risk | Regression suites and release artifacts | UAT, real devices, and production smoke tests |
-
-Agents can recommend. Evidence can inform. Neither silently takes ownership of a product or release decision.
-
-## Repository map
-
-| Path | Purpose |
+| Layer | Responsibility |
 | --- | --- |
-| [`AGENTS.md`](AGENTS.md) | Default operating rules for coding agents. |
-| [`workflows/feature.md`](workflows/feature.md) | The feature delivery loop and its gates. |
-| [`skills/ticket-to-plan/`](skills/ticket-to-plan/) | Turns a bounded ticket into an executable plan. |
-| [`skills/acceptance-review/`](skills/acceptance-review/) | Reviews a change against acceptance criteria and risk. |
-| [`examples/react-native-offline-banner/`](examples/react-native-offline-banner/) | One end-to-end React Native execution trace. |
+| Human | Owns product intent, architecture exceptions, acceptance, release, and rollback. |
+| `AGENTS.md` | Sets repository-wide boundaries, evidence rules, and escalation points. |
+| Portable skills | Encode repeatable methods for context, planning, and review without naming a vendor or server. |
+| MCP | Exposes current tickets, docs, designs, source systems, CI evidence, and approved actions at runtime. |
+| Checks and devices | Produce observable evidence through tests, builds, previews, accessibility checks, and real-device validation. |
 
-## Use it in a repository
+Tool availability is not authorization. A skill decides what capability is relevant; the user and repository rules decide what the agent may do.
+
+## Portable package
+
+```text
+AGENTS.md
+skills/
+  mcp-context-brief/
+    SKILL.md
+  ticket-to-plan/
+    SKILL.md
+  acceptance-review/
+    SKILL.md
+workflows/
+  feature.md
+examples/
+  react-native-offline-banner/
+```
+
+The skills discover available MCP resources and tools at runtime. They contain no hard-coded server names, account IDs, or vendor-specific calls, so the same workflow can sit above different issue trackers, document stores, source hosts, or CI systems.
+
+## Workflow
+
+`Intent → Context → Plan → Implement → Review → Verify → Release → Learn`
+
+1. [`mcp-context-brief`](skills/mcp-context-brief/SKILL.md) gathers the minimum authoritative context and records its provenance.
+2. [`ticket-to-plan`](skills/ticket-to-plan/SKILL.md) turns the approved outcome into a bounded implementation and verification plan.
+3. The agent implements one reviewable slice under [`AGENTS.md`](AGENTS.md).
+4. [`acceptance-review`](skills/acceptance-review/SKILL.md) maps the ticket, diff, and observed evidence to a release recommendation.
+5. The human owner accepts, revises, or blocks the release.
+
+See [`workflows/feature.md`](workflows/feature.md) for the gates between stages.
+
+## Use it in another repository
 
 1. Merge the relevant rules from `AGENTS.md` into the target repository's instructions.
-2. Give the agent an approved ticket and use `ticket-to-plan` before editing code.
-3. Approve any material product or architecture choice, then implement one small slice.
-4. Use `acceptance-review` against the ticket, diff, and observed check results.
-5. Record the release decision and residual risk in the same shape as the example.
+2. Copy only the skill folders the team needs into its supported skills location.
+3. Connect the MCP servers approved for that repository; do not edit the skills to embed credentials or server names.
+4. Start with an approved ticket and run the context, planning, and review skills in sequence.
+5. Keep the final acceptance and release decision human-owned.
 
-## Start here
+If MCP is unavailable, the skills fall back to user-provided and local repository context, state the missing sources, and avoid pretending the gap was verified.
 
-1. Read the [feature workflow](workflows/feature.md).
-2. Inspect the [example ticket](examples/react-native-offline-banner/ticket.md) and [implementation plan](examples/react-native-offline-banner/implementation-plan.md).
-3. Follow the [execution log](examples/react-native-offline-banner/execution-log.md) from implementation through a review finding and fix.
-4. Inspect the [acceptance evidence](examples/react-native-offline-banner/acceptance-review.md) behind the release decision.
+## Example
 
-The files are intentionally short. The goal is a repeatable control system that can be adapted to a real codebase, not a large collection of generic prompts.
+The [React Native offline-banner example](examples/react-native-offline-banner/) follows a ticket through planning, a review finding, a fix, acceptance evidence, and a release decision.
 
-The mobile example is a representative, code-free trace. It demonstrates the expected artifacts and evidence format; it is not presented as an open-source application or a claim about shipped code.
+It is a representative, code-free trace. It demonstrates the expected artifacts and evidence format; it is not presented as an open-source application or a claim about shipped code.
+
+The repository stays deliberately small. Add a skill only when it captures a genuinely repeatable decision process—not merely another prompt.

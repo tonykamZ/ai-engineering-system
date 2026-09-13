@@ -1,5 +1,7 @@
 # Execution Log
 
+> Representative example: this trace demonstrates the workflow and expected evidence format; it is not a claim about a shipped codebase.
+
 ## Implement
 
 The agent added a three-state connectivity model, derived banner states in a focused hook, and rendered the banner from the existing app shell. No new dependency or unrelated refactor was introduced.
@@ -14,10 +16,7 @@ The agent changed announcements to occur only on transitions between derived ban
 
 ## Verification evidence
 
-- Lint, type check, unit tests, and the app build passed.
-- Automated tests covered unknown startup state, offline display, reconnect, sync success, sync failure, retry, and duplicate callbacks.
-- Human device checks confirmed cold start and airplane-mode transitions on iOS and Android.
-- VoiceOver and TalkBack announced each meaningful transition once.
+The example concludes with an [acceptance review](acceptance-review.md) that maps every criterion to automated or human evidence.
 
 ## Release decision
 

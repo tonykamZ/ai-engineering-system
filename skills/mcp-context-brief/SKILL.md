@@ -1,18 +1,18 @@
 ---
 name: mcp-context-brief
-description: Gather task context from available MCP resources and local repository sources, then produce a provenance-aware brief before planning. Use when a ticket depends on external docs, designs, issue trackers, source systems, or CI evidence.
+description: Gather a provenance-aware context brief when planning depends on external docs, designs, trackers, source systems, or CI evidence.
 ---
 
 # MCP Context Brief
 
-Build the smallest reliable context package needed to plan the requested work.
+Build the smallest reliable context package needed to plan the work. For a local-only task, work directly from repository context without using this skill.
 
 ## Capability selection
 
-1. Inspect the MCP resources, resource templates, and tools available at runtime.
-2. Select only sources that can materially affect scope, constraints, acceptance, or risk.
+1. Discover only the available capabilities needed to reach material external facts; do not inventory every integration.
+2. Select sources that can affect scope, constraints, acceptance, or risk.
 3. Prefer the authoritative source closest to the work over broad search or duplicated summaries.
-4. Use read-only retrieval for context gathering. Do not mutate an external system unless the user explicitly requested that action.
+4. Keep context gathering read-only. External mutations require a separate, explicit request.
 
 Do not assume a particular MCP server, tool name, account, or provider. Tool availability does not grant authorization.
 
@@ -28,13 +28,10 @@ Do not assume a particular MCP server, tool name, account, or provider. Tool ava
 
 Return a concise context brief with:
 
-- intended outcome;
-- observable acceptance criteria;
-- constraints and non-goals;
-- relevant components or system boundaries;
-- authoritative sources consulted;
-- conflicting or stale information;
-- assumptions and open human decisions;
+- intended outcome and observable acceptance criteria;
+- constraints, non-goals, and relevant system boundaries;
+- sources consulted and their freshness when material;
+- conflicts, evidence gaps, assumptions, and open decisions;
 - the minimum handoff needed for planning.
 
 Do not produce an implementation plan unless the user also requests one or a planning skill follows.
